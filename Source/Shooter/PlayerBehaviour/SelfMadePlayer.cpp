@@ -3,7 +3,10 @@
 
 #include <Shooter/PlayerBehaviour/SelfMadePlayer.h>
 #include <Camera/CameraComponent.h>
+#include <Components/InputComponent.h>
+#include <GameFramework/InputSettings.h>
 #include <Components/CapsuleComponent.h>
+#include <MotionControllerComponent.h>
 
 // Sets default values
 ASelfMadePlayer::ASelfMadePlayer()
