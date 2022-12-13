@@ -14,7 +14,7 @@ class UMotionControllerComponent;
 class UAnimMontage;
 class USoundBase;
 
-UCLASS(config=Game)
+UCLASS()
 class AShooterCharacter : public ACharacter
 {
 	GENERATED_BODY()

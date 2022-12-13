@@ -8,6 +8,7 @@
 
 class UCameraComponent;
 class USkeletalMeshComponent;
+class ABullet;
 
 UCLASS()
 class SHOOTER_API ASelfMadePlayer : public ACharacter
@@ -36,6 +37,7 @@ public:
 	/// Called every frame
 	/// </summary>
 	virtual void Tick(float DeltaTime) override;
+	void OnFire();
 	/// <summary>
 	/// Move on the X
 	/// </summary>
@@ -55,7 +57,10 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	float BaseTurnRate;
-
+	UPROPERTY(EditAnywhere)
+	FVector OffSet;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	ABullet* ProjectileClass;
 	UPROPERTY(VisibleAnywhere,  Category = "Camera")
 	float BaseLookUpRate;
 	UPROPERTY(VisibleAnywhere)

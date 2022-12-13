@@ -9,7 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 
-UCLASS(config=Game)
+UCLASS()
 class AShooterProjectile : public AActor
 {
 	GENERATED_BODY()

@@ -6,6 +6,7 @@
 #include <Components/InputComponent.h>
 #include <GameFramework/InputSettings.h>
 #include <Components/CapsuleComponent.h>
+#include <Shooter/Public/Bullet.h>
 #include <MotionControllerComponent.h>
 
 // Sets default values
@@ -31,14 +32,25 @@ ASelfMadePlayer::ASelfMadePlayer()
 void ASelfMadePlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ASelfMadePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void ASelfMadePlayer::OnFire()
+{
+	UWorld* World = GetWorld();
+	FRotator SpawnRotation = GetControlRotation();
+	// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+	FVector SpawnLocation = ((MeshA != nullptr) ? MeshA->GetComponentLocation() : GetActorLocation());
+	//Set Spawn Collision Handling Override
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	//spawn the projectile at the muzzle
+	World->SpawnActor<ABullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
 }
 
 void ASelfMadePlayer::MoveX(float value)
@@ -76,10 +88,14 @@ void ASelfMadePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASelfMadePlayer::MoveY);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASelfMadePlayer::MoveX);
 	/// <summary>
+	/// Bind fire event
+	/// </summary>
+	/// <param name="PlayerInputComponent"></param>
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASelfMadePlayer::OnFire);
+	/// <summary>
 	/// Binds the rotation of the charactor to the mouse
 	/// </summary>
 	/// <param name="PlayerInputComponent"></param>
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
-
