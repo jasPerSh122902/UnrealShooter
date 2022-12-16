@@ -23,6 +23,9 @@ class SHOOTER_API ABullet : public AActor
 	USphereComponent* m_Collision;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	UProjectileMovementComponent* m_Movement;
+	UPROPERTY(EditAnywhere)
+	FString m_Owner;
+
 
 public:	
 	void BeginPlay();
@@ -39,6 +42,8 @@ public:
 	/// </summary>
 	/// <returns>m_Collision</returns>
 	USphereComponent* getColliderComponent() const { return m_Collision; }
+	FString getOnwer() { return m_Owner; }
+	void setOwner(FString owner) { m_Owner = owner; }
 	/// <summary>
 	/// Returns the movement component
 	/// </summary>
@@ -48,9 +53,18 @@ public:
 private:
 	FVector startLocation;
 	FVector endLocation;
-
+	
 protected:
+	/// <summary>
+	/// Makes the collision
+	/// </summary>
 	void MakeCollision();
+ 	/// <summary>
+ 	/// Makes the movement
+ 	/// </summary>
  	void MakeMovement();
+	/// <summary>
+	/// Makes the Mesh
+	/// </summary>
 	void MakeMesh();
 };

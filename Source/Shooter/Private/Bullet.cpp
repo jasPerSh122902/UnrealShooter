@@ -8,12 +8,12 @@
 // Sets default values
 ABullet::ABullet()
 {
-	
 	MakeCollision();
 	MakeMesh();
 	MakeMovement();
 	// Die after 3 secomponents
 	InitialLifeSpan = 3.0f;
+	setOwner("SelfMadePlayer");
 }
 
 void ABullet::BeginPlay()
@@ -30,7 +30,7 @@ void ABullet::Tick(float DeltaTime)
 void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap begin");
-	if ((OtherActor != nullptr) && (OtherActor != this))
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor->GetFName() != GetOwner()))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
 		meshA->AddRadialForce(GetActorLocation(), 1000.f, 1000.f, ERadialImpulseFalloff::RIF_Constant);
@@ -40,7 +40,7 @@ void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 void ABullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End");
-	if ((OtherActor != nullptr) && (OtherActor != this))
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor->GetFName() != GetOwner()))
 	{
 		Destroy();
 	}
@@ -70,19 +70,30 @@ void ABullet::MakeMovement()
 	// set the movements speed
 	m_Movement->InitialSpeed = 3000.f;
 	m_Movement->MaxSpeed = 3000.f;
+	// Allows for rotations
 	m_Movement->bRotationFollowsVelocity = true;
+	// Allows for bounce
 	m_Movement->bShouldBounce = true;
 }
 
 void ABullet::MakeMesh()
 {
+	// Make a default sub object of mesh
 	meshA = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Box"));
+	// Allow all to see it
 	meshA->SetOnlyOwnerSee(false);
+	// Attach it to something
 	meshA->SetupAttachment(m_Collision);
+	// Shadows
 	meshA->bCastDynamicShadow = false;
+	// Case a shadow
 	meshA->CastShadow = false;
+	// Set the place it is in
 	meshA->SetRelativeLocation(m_Collision->GetComponentLocation());
+	// Set the mesh to a preset assest
 	ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
+	// Make the mesh asset in to a pointer of asset
 	UStaticMesh* Asset = MeshAsset.Object;
+	// Set the staticMesh
 	meshA->SetStaticMesh(Asset);
 }
