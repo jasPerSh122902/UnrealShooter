@@ -12,7 +12,7 @@
 // Sets default values
 ASelfMadePlayer::ASelfMadePlayer()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -20,8 +20,9 @@ ASelfMadePlayer::ASelfMadePlayer()
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
-	// Create a CameraComponent	
+	SetName(TEXT("SelfMadePlayer"));
+	// Create a CameraComponent
+	//this->Rename(TEXT("SelfMadePlayer"));
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocation(CamLocation); // Position the camera

@@ -4,6 +4,8 @@
 #include <Components/SphereComponent.h>
 #include <GameFramework/ProjectileMovementComponent.h>
 #include <Engine/Engine.h>
+#include <Shooter/PlayerBehaviour/SelfMadePlayer.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ABullet::ABullet()
@@ -13,12 +15,12 @@ ABullet::ABullet()
 	MakeMovement();
 	// Die after 3 secomponents
 	InitialLifeSpan = 3.0f;
-	setOwner("SelfMadePlayer");
 }
 
 void ABullet::BeginPlay()
 {
-	 Super::BeginPlay();
+	Super::BeginPlay();
+	
 	startLocation = GetActorLocation();
 }
 
@@ -29,19 +31,21 @@ void ABullet::Tick(float DeltaTime)
 
 void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap begin");
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor->GetFName() != GetOwner()))
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor != GetOwner()))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
-		meshA->AddRadialForce(GetActorLocation(), 1000.f, 1000.f, ERadialImpulseFalloff::RIF_Constant);
+		meshA->AddRadialForce(GetActorLocation(), 10.f, 10.f, ERadialImpulseFalloff::RIF_Constant);
 	}
 }
 
 void ABullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End");
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor->GetFName() != GetOwner()))
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor != GetOwner()))
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Death");
 		Destroy();
 	}
 }
@@ -60,6 +64,22 @@ void ABullet::MakeCollision()
 	m_Collision->CanCharacterStepUpOn = ECB_No;
 	// Makes the root comp to the collider
 	m_Collision->SetupAttachment(RootComponent);
+
+	TArray<AActor*> ActorsToFind;
+	if (UWorld* World = GetWorld())
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASelfMadePlayer::StaticClass(), ActorsToFind);
+
+	for (AActor* player : ActorsToFind)
+	{
+		ASelfMadePlayer* playercast = Cast<ASelfMadePlayer>(player);
+		if (playercast)
+		{
+			m_Owner = playercast;
+
+			SetOwner(playercast);
+			//setOwner(playercast);
+		}
+	}
 }
 
 void ABullet::MakeMovement()
