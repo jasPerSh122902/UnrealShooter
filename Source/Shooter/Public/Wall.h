@@ -13,18 +13,18 @@ UCLASS()
 class SHOOTER_API AWall : public AActor
 {
 	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, Category = Mesh)
-	UStaticMeshComponent* meshA;
+
+		UPROPERTY(EditAnywhere, Category = Mesh)
+		UStaticMeshComponent* meshA;
 	UPROPERTY(EditAnywhere)
-	UBoxComponent* m_Collision;
+		UBoxComponent* m_Collision;
 	UPROPERTY(EditAnywhere)
-	FVector Size;
-public:	
+		FVector Size;
+public:
 	// Sets default values for this actor's properties
 	AWall();
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	// Called when the game starts or when spawned
@@ -34,7 +34,7 @@ private:
 	/// Called when it hits somthing
 	/// </summary>
 	UFUNCTION()
-	void OnOverLapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void OnOverLapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
