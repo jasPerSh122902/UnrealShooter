@@ -10,6 +10,7 @@
 // Sets default values
 ABullet::ABullet()
 {
+	
 	MakeCollision();
 	MakeMesh();
 	MakeMovement();
@@ -88,30 +89,19 @@ void ABullet::MakeMovement()
 	// set the movements speed
 	m_Movement->InitialSpeed = 3000.f;
 	m_Movement->MaxSpeed = 3000.f;
-	// Allows for rotations
 	m_Movement->bRotationFollowsVelocity = true;
-	// Allows for bounce
 	m_Movement->bShouldBounce = true;
 }
 
 void ABullet::MakeMesh()
 {
-	// Make a default sub object of mesh
 	meshA = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Box"));
-	// Allow all to see it
 	meshA->SetOnlyOwnerSee(false);
-	// Attach it to something
 	meshA->SetupAttachment(m_Collision);
-	// Shadows
 	meshA->bCastDynamicShadow = false;
-	// Case a shadow
 	meshA->CastShadow = false;
-	// Set the place it is in
 	meshA->SetRelativeLocation(m_Collision->GetComponentLocation());
-	// Set the mesh to a preset assest
 	ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
-	// Make the mesh asset in to a pointer of asset
 	UStaticMesh* Asset = MeshAsset.Object;
-	// Set the staticMesh
 	meshA->SetStaticMesh(Asset);
 }

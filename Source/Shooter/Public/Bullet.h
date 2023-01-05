@@ -24,8 +24,11 @@ class SHOOTER_API ABullet : public AActor
 	USphereComponent* m_Collision;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	UProjectileMovementComponent* m_Movement;
+<<<<<<< HEAD
 	UPROPERTY(EditAnywhere)
 	ASelfMadePlayer* m_Owner;
+=======
+>>>>>>> parent of 65e7c8d... making collision check the name to not colided with owner it dos not..
 
 public:	
 	void BeginPlay();
@@ -43,6 +46,7 @@ public:
 	/// <returns>m_Collision</returns>
 	UFUNCTION()
 	USphereComponent* getColliderComponent() const { return m_Collision; }
+<<<<<<< HEAD
 	/// <summary>
 	/// Gets the owner
 	/// </summary>
@@ -55,12 +59,15 @@ public:
 	/// <FString="owner"></param>
 	//UFUNCTION()
 	//void setOwner(ASelfMadePlayer* owner) { m_Owner = owner; }
+=======
+>>>>>>> parent of 65e7c8d... making collision check the name to not colided with owner it dos not..
 	/// <summary>
 	/// Returns the movement component
 	/// </summary>
 	/// <returns>m_Movement</returns>
 	UFUNCTION()
 	UProjectileMovementComponent* getMovementComponent() const { return m_Movement; }
+<<<<<<< HEAD
 	/// <summary>
 	/// Gets the owner
 	/// </summary>
@@ -68,11 +75,16 @@ public:
 	ASelfMadePlayer* getOwner() { return m_Owner; }
 	void setOwner(ASelfMadePlayer* owner) { m_Owner = owner; }
 	
+=======
+
+private:
+	FVector startLocation;
+	FVector endLocation;
+
+>>>>>>> parent of 65e7c8d... making collision check the name to not colided with owner it dos not..
 protected:
-	/// <summary>
-	/// Makes the collision
-	/// </summary>
 	void MakeCollision();
+<<<<<<< HEAD
 	/// <summary>
 	/// Makes the movement
 	/// </summary>
@@ -80,6 +92,9 @@ protected:
 	/// <summary>
 	/// Makes the Mesh
 	/// </summary>
+=======
+ 	void MakeMovement();
+>>>>>>> parent of 65e7c8d... making collision check the name to not colided with owner it dos not..
 	void MakeMesh();
 
 private:
