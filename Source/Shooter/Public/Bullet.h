@@ -41,11 +41,25 @@ public:
 	/// Returns the collider component
 	/// </summary>
 	/// <returns>m_Collision</returns>
+	UFUNCTION()
 	USphereComponent* getColliderComponent() const { return m_Collision; }
+	/// <summary>
+	/// Gets the owner
+	/// </summary>
+	/// <returns>the owner</returns>
+	UFUNCTION()
+	ASelfMadePlayer* getOwner() { return m_Owner; }
+	/// <summary>
+	/// set owner
+	/// </summary>
+	/// <FString="owner"></param>
+	//UFUNCTION()
+	//void setOwner(ASelfMadePlayer* owner) { m_Owner = owner; }
 	/// <summary>
 	/// Returns the movement component
 	/// </summary>
 	/// <returns>m_Movement</returns>
+	UFUNCTION()
 	UProjectileMovementComponent* getMovementComponent() const { return m_Movement; }
 	/// <summary>
 	/// Gets the owner
@@ -59,10 +73,10 @@ protected:
 	/// Makes the collision
 	/// </summary>
 	void MakeCollision();
- 	/// <summary>
- 	/// Makes the movement
- 	/// </summary>
- 	void MakeMovement();
+	/// <summary>
+	/// Makes the movement
+	/// </summary>
+	void MakeMovement();
 	/// <summary>
 	/// Makes the Mesh
 	/// </summary>
