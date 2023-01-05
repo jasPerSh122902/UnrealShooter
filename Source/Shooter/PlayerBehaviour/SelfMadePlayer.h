@@ -47,7 +47,7 @@ public:
 	/// Sets the name of the player
 	/// </summary>
 	/// <FString="name"></param>
-	void SetName(FString name) { name = Name; }
+	void SetName(FString name) { Name = name; }
 	/// <summary>
 	/// Gets the name of the player
 	/// </summary>

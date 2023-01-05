@@ -15,6 +15,7 @@ ABullet::ABullet()
 	MakeMovement();
 	// Die after 3 secomponents
 	InitialLifeSpan = 3.0f;
+	//setOwner("SelfMadePlayer");
 }
 
 void ABullet::BeginPlay()
@@ -33,7 +34,7 @@ void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 {
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap begin");
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor != GetOwner()))
+	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
 		meshA->AddRadialForce(GetActorLocation(), 10.f, 10.f, ERadialImpulseFalloff::RIF_Constant);
@@ -43,7 +44,7 @@ void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 void ABullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End");
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor != GetOwner()))
+	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Death");
 		Destroy();
@@ -74,10 +75,7 @@ void ABullet::MakeCollision()
 		ASelfMadePlayer* playercast = Cast<ASelfMadePlayer>(player);
 		if (playercast)
 		{
-			m_Owner = playercast;
-
-			SetOwner(playercast);
-			//setOwner(playercast);
+			setOwner(playercast);
 		}
 	}
 }

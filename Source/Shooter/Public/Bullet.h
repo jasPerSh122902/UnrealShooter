@@ -18,9 +18,9 @@ class SHOOTER_API ABullet : public AActor
 
 	// Sets default values for this actor's properties
 	ABullet();
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
+	UPROPERTY(EditAnywhere, Category = Mesh)
 	UStaticMeshComponent* meshA;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	USphereComponent* m_Collision;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	UProjectileMovementComponent* m_Movement;
@@ -61,7 +61,13 @@ public:
 	/// <returns>m_Movement</returns>
 	UFUNCTION()
 	UProjectileMovementComponent* getMovementComponent() const { return m_Movement; }
-
+	/// <summary>
+	/// Gets the owner
+	/// </summary>
+	/// <returns>the owner</returns>
+	ASelfMadePlayer* getOwner() { return m_Owner; }
+	void setOwner(ASelfMadePlayer* owner) { m_Owner = owner; }
+	
 protected:
 	/// <summary>
 	/// Makes the collision
@@ -75,6 +81,7 @@ protected:
 	/// Makes the Mesh
 	/// </summary>
 	void MakeMesh();
+
 private:
 	FVector startLocation;
 	FVector endLocation;
