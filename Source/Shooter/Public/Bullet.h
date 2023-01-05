@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
+class ASelfMadePlayer;
 
 UCLASS()
 class SHOOTER_API ABullet : public AActor
@@ -59,15 +60,16 @@ protected:
 	/// </summary>
 	void MakeCollision();
 	/// <summary>
-	/// Makes the collision
+	/// Makes the movement
 	/// </summary>
-	void MakeCollision();
- 	/// <summary>
- 	/// Makes the movement
- 	/// </summary>
- 	void MakeMovement();
+	void MakeMovement();
 	/// <summary>
 	/// Makes the Mesh
 	/// </summary>
 	void MakeMesh();
+
+private:
+	FVector startLocation;
+	FVector endLocation;
 };
+
