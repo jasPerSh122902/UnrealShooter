@@ -14,9 +14,7 @@ UCLASS()
 class SHOOTER_API ASelfMadePlayer : public ACharacter
 {
 	GENERATED_BODY()
-	/// <summary>
-	/// Is the mesh
-	/// </summary>
+
 	UPROPERTY(VisibleDefaultsOnly, Category = " Mesh ")
 	USkeletalMeshComponent* MeshA;
 	/// <summary>
@@ -39,20 +37,7 @@ public:
 	/// Called every frame
 	/// </summary>
 	virtual void Tick(float DeltaTime) override;
-	/// <summary>
-	/// Is called to make a object to shoot
-	/// </summary>
 	void OnFire();
-	/// <summary>
-	/// Sets the name of the player
-	/// </summary>
-	/// <FString="name"></param>
-	void SetName(FString name) { Name = name; }
-	/// <summary>
-	/// Gets the name of the player
-	/// </summary>
-	/// <returns>Name</returns>
-	FString getName() { return Name; }
 	/// <summary>
 	/// Move on the X
 	/// </summary>
@@ -80,6 +65,4 @@ private:
 	float BaseLookUpRate;
 	UPROPERTY(VisibleAnywhere)
 	FVector CamLocation;
-	UPROPERTY(VisibleAnywhere)
-	FString Name;
 };
