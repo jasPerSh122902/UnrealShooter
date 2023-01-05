@@ -16,11 +16,12 @@ ASelfMadePlayer::ASelfMadePlayer()
 	PrimaryActorTick.bCanEverTick = true;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
-
+	GetCapsuleComponent()->SetActive(false);
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
+	// set the name of the object
+	SetName(TEXT("SelfMadePlayer1"));
 	// Create a CameraComponent	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());

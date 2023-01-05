@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
+class ASelfMadePlayer;
 
 UCLASS()
 class SHOOTER_API ABullet : public AActor
@@ -17,15 +18,14 @@ class SHOOTER_API ABullet : public AActor
 
 	// Sets default values for this actor's properties
 	ABullet();
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
+	UPROPERTY(EditAnywhere, Category = Mesh)
 	UStaticMeshComponent* meshA;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	USphereComponent* m_Collision;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	UProjectileMovementComponent* m_Movement;
 	UPROPERTY(EditAnywhere)
-	FString m_Owner;
-
+	ASelfMadePlayer* m_Owner;
 
 public:	
 	void BeginPlay();
@@ -42,17 +42,17 @@ public:
 	/// </summary>
 	/// <returns>m_Collision</returns>
 	USphereComponent* getColliderComponent() const { return m_Collision; }
-	FString getOnwer() { return m_Owner; }
-	void setOwner(FString owner) { m_Owner = owner; }
 	/// <summary>
 	/// Returns the movement component
 	/// </summary>
 	/// <returns>m_Movement</returns>
 	UProjectileMovementComponent* getMovementComponent() const { return m_Movement; }
-
-private:
-	FVector startLocation;
-	FVector endLocation;
+	/// <summary>
+	/// Gets the owner
+	/// </summary>
+	/// <returns>the owner</returns>
+	ASelfMadePlayer* getOwner() { return m_Owner; }
+	void setOwner(ASelfMadePlayer* owner) { m_Owner = owner; }
 	
 protected:
 	/// <summary>
@@ -67,4 +67,8 @@ protected:
 	/// Makes the Mesh
 	/// </summary>
 	void MakeMesh();
+
+private:
+	FVector startLocation;
+	FVector endLocation;
 };
