@@ -15,7 +15,6 @@ ABullet::ABullet()
 	MakeMovement();
 	// Die after 3 secomponents
 	InitialLifeSpan = 3.0f;
-	//setOwner("SelfMadePlayer");
 }
 
 void ABullet::BeginPlay()

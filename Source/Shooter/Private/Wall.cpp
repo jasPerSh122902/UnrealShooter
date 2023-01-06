@@ -17,7 +17,7 @@ AWall::AWall()
 	m_Collision->OnComponentEndOverlap.AddDynamic(this, &AWall::OnOverlapEnd);
 
 	m_Collision->SetupAttachment(RootComponent);
-
+	// Object 1
 	meshA = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Box"));
 	meshA->CastShadow = false;
 	meshA->SetupAttachment(m_Collision);
@@ -25,6 +25,7 @@ AWall::AWall()
 	ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssest(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
 	UStaticMesh* Asset = MeshAssest.Object;
 	meshA->SetStaticMesh(Asset);
+
 }
 
 // Called when the game starts or when spawned
@@ -36,27 +37,13 @@ void AWall::BeginPlay()
 void AWall::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "start Collision walls");
-	Particals();
+
 }
 
 void AWall::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "End Collision walls");
-}
 
-void AWall::Particals()
-{
-	particalArray[numberOfParticals];
-	for(int i = 0; i < particalArray.Num(); i++)
-	{
-		particalArray[i] = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Box"));
-		particalArray[i]->CastShadow = false;
-		particalArray[i]->AddForceAtLocation(FVector(0,rand() + ForceOnParticals.Y,rand() + ForceOnParticals.Z), particalArray[i]->GetComponentLocation());
-		particalArray[i]->SetRelativeLocation(m_Collision->GetComponentLocation());
-		ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssest(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
-		UStaticMesh* Asset = MeshAssest.Object;
-		particalArray[i]->SetStaticMesh(Asset);
-	}
 }
 
 // Called every frame

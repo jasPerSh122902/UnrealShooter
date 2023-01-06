@@ -16,16 +16,10 @@ class SHOOTER_API AWall : public AActor
 
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		UStaticMeshComponent* meshA;
-	UPROPERTY(EditAnywhere)
-		int numberOfParticals;
 	UPROPERTY(EditAnywhere, Category = Collider)
 		UBoxComponent* m_Collision;
 	UPROPERTY(EditAnywhere)
 		FVector Size;
-	UPROPERTY(EditAnywhere)
-		FVector ForceOnParticals;
-	UPROPERTY(EditAnywhere)
-		TArray<UStaticMeshComponent*> particalArray;
 public:
 	// Sets default values for this actor's properties
 	AWall();
@@ -43,5 +37,4 @@ private:
 		void OnOverLapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	void Particals();
 };
