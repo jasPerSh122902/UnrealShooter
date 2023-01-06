@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include <Shooter/PlayerBehaviour/SelfMadePlayer.h>
+#include <Shooter/Public/SelfMadePlayer.h>
 #include <Camera/CameraComponent.h>
 #include <Components/InputComponent.h>
 #include <GameFramework/InputSettings.h>
