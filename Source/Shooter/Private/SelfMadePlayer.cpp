@@ -6,7 +6,7 @@
 #include <Components/InputComponent.h>
 #include <GameFramework/InputSettings.h>
 #include <Components/CapsuleComponent.h>
-#include <Shooter/Public/Bullet.h>
+#include <Shooter/Public/ProjectileBullet.h>
 #include <MotionControllerComponent.h>
 
 // Sets default values
@@ -50,7 +50,7 @@ void ASelfMadePlayer::OnFire()
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	//spawn the projectile at the muzzle
-	World->SpawnActor<ABullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
+	World->SpawnActor<AProjectileBullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
 }
 
 void ASelfMadePlayer::MoveX(float value)
