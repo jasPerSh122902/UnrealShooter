@@ -10,8 +10,6 @@
 ABullet::ABullet()
 {
 
-	
-
 }
 
 void ABullet::BeginPlay()
@@ -31,7 +29,7 @@ void ABullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
-		
+		//meshA->AddRadialForce(GetActorLocation(), 1000.f, 1000.f, ERadialImpulseFalloff::RIF_Constant);
 	}
 }
 
@@ -41,6 +39,6 @@ void ABullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Death");
-		
+		//Destroy();
 	}
 }

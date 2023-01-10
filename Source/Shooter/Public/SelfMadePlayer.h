@@ -8,7 +8,7 @@
 
 class UCameraComponent;
 class USkeletalMeshComponent;
-class ABullet;
+class AProjectileBullet;
 
 UCLASS()
 class SHOOTER_API ASelfMadePlayer : public ACharacter
@@ -60,7 +60,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	FVector OffSet;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-	ABullet* ProjectileClass;
+	AProjectileBullet* ProjectileClass;
 	UPROPERTY(VisibleAnywhere,  Category = "Camera")
 	float BaseLookUpRate;
 	UPROPERTY(VisibleAnywhere)
