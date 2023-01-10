@@ -18,7 +18,6 @@ void ARayCastBullet::BeginPlay()
 
 bool ARayCastBullet::DoTrace(FHitResult* Hit, FCollisionQueryParams* params)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Trace");
 	FVector Loc = GetActorLocation();
 	FRotator Rot = GetActorRotation();
 	FVector Start = Loc;
@@ -31,7 +30,6 @@ bool ARayCastBullet::DoTrace(FHitResult* Hit, FCollisionQueryParams* params)
 	(
 		*Hit, Start, End, ECC_PhysicsBody, *params
 	);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald,"Traced value" + Traced);
 	return Traced;
 }
 

@@ -6,7 +6,7 @@
 #include <GameFramework/ProjectileMovementComponent.h>
 #include <Engine/Engine.h>
 #include <Shooter/Public/Bullet.h>
-#include <Shooter/PlayerBehaviour/SelfMadePlayer.h>
+#include <Shooter/Public/SelfMadePlayer.h>
 #include <Kismet/GameplayStatics.h>
 
 // Sets default values
