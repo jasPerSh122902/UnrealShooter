@@ -4,8 +4,7 @@
 #include <Components/SphereComponent.h>
 #include <GameFramework/ProjectileMovementComponent.h>
 #include <Engine/Engine.h>
-#include <Shooter/PlayerBehaviour/SelfMadePlayer.h>
-#include <Kismet/GameplayStatics.h>
+
 
 // Sets default values
 ABullet::ABullet()
