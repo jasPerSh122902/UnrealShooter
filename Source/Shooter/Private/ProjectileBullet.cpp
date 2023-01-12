@@ -8,7 +8,6 @@
 #include <Shooter/Public/Bullet.h>
 #include <Shooter/Public/SelfMadePlayer.h>
 #include <Kismet/GameplayStatics.h>
-
 // Sets default values
 AProjectileBullet::AProjectileBullet()
 {
@@ -28,8 +27,9 @@ void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
-		//meshA->AddRadialForce(GetActorLocation(), 1000.f, 1000.f, ERadialImpulseFalloff::RIF_Constant);
+		meshA->AddRadialForce(GetActorLocation(), 1000.f, 1000.f, ERadialImpulseFalloff::RIF_Constant);
 	}
+	
 }
 
 void AProjectileBullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

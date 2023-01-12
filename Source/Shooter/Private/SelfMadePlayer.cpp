@@ -8,6 +8,7 @@
 #include <Components/CapsuleComponent.h>
 #include <Shooter/Public/ProjectileBullet.h>
 #include <MotionControllerComponent.h>
+#include <Shooter/Public/TraceComp.h>
 
 // Sets default values
 ASelfMadePlayer::ASelfMadePlayer()
@@ -26,6 +27,9 @@ ASelfMadePlayer::ASelfMadePlayer()
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocation(CamLocation); // Position the camera
 	CameraComponent->bUsePawnControlRotation = true;
+
+	TraceComp = CreateDefaultSubobject<UTraceComp>(TEXT("TraceComp"));
+	TraceComp->AddToRoot();
 }
 
 // Called when the game starts or when spawned
@@ -46,11 +50,18 @@ void ASelfMadePlayer::OnFire()
 	FRotator SpawnRotation = GetControlRotation();
 	// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 	FVector SpawnLocation = ((MeshA != nullptr) ? MeshA->GetComponentLocation() : GetActorLocation());
-	//Set Spawn Collision Handling Override
+	// Set Spawn Collision Handling Override
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-	//spawn the projectile at the muzzle
+	// spawn the projectile at the muzzle
 	World->SpawnActor<AProjectileBullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+	
+}
+
+void ASelfMadePlayer::OnFireRay()
+{
+	TraceComp->GetTraceBullet();
 }
 
 void ASelfMadePlayer::MoveX(float value)
@@ -92,6 +103,7 @@ void ASelfMadePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	/// </summary>
 	/// <param name="PlayerInputComponent"></param>
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASelfMadePlayer::OnFire);
+	PlayerInputComponent->BindAction("RayCast", IE_Pressed, this, &ASelfMadePlayer::OnFireRay);
 	/// <summary>
 	/// Binds the rotation of the charactor to the mouse
 	/// </summary>

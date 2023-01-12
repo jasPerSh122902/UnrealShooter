@@ -9,6 +9,7 @@
 class UCameraComponent;
 class USkeletalMeshComponent;
 class AProjectileBullet;
+class UTraceComp;
 
 UCLASS()
 class SHOOTER_API ASelfMadePlayer : public ACharacter
@@ -22,11 +23,7 @@ class SHOOTER_API ASelfMadePlayer : public ACharacter
 	/// </summary>
 	UPROPERTY(VisibleAnywhere,  Category = " Camera " )
 	UCameraComponent* CameraComponent;
-public:
-	/// </summary>
-	/// Sets default values for this character's properties
-	/// /// </summary>
-	ASelfMadePlayer();
+
 protected:
 	/// </summary>
 	/// Called when the game starts or when spawned
@@ -34,10 +31,21 @@ protected:
 	virtual void BeginPlay() override;
 public:	
 	/// </summary>
+	/// Sets default values for this character's properties
+	/// /// </summary>
+	ASelfMadePlayer();
+	/// </summary>
 	/// Called every frame
 	/// </summary>
 	virtual void Tick(float DeltaTime) override;
+	/// <summary>
+	/// Fires the bullet that is a projectle
+	/// </summary>
 	void OnFire();
+	/// <summary>
+	/// Fires the ray 
+	/// </summary>
+	void OnFireRay();
 	/// <summary>
 	/// Move on the X
 	/// </summary>
@@ -61,8 +69,10 @@ private:
 	FVector OffSet;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	AProjectileBullet* ProjectileClass;
+	UPROPERTY(EditAnywhere)
+	UTraceComp* TraceComp;
 	UPROPERTY(VisibleAnywhere,  Category = "Camera")
 	float BaseLookUpRate;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Camera location")
 	FVector CamLocation;
 };

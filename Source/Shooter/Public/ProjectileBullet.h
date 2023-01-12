@@ -15,13 +15,13 @@ class SHOOTER_API AProjectileBullet : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Collider)
 		USphereComponent* m_Collision;
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		UStaticMeshComponent* meshA;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 		UProjectileMovementComponent* m_Movement;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Bounce)
 		FVector bounceOff;
 	
 public:	
