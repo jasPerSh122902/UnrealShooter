@@ -61,7 +61,8 @@ void ASelfMadePlayer::OnFire()
 
 void ASelfMadePlayer::OnFireRay()
 {
-	TraceComp->GetTraceBullet();
+	//TraceComp->GetTraceBullet(100,FColor::Orange,false,1.5f,0,5.0f);
+	TraceComp->setClicked(true);
 }
 
 void ASelfMadePlayer::MoveX(float value)

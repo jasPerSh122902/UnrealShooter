@@ -21,20 +21,60 @@ void UTraceComp::BeginPlay()
 	MyCharactor = Cast<ACharacter>(GetOwner());
 }
 
+void UTraceComp::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	FCollisionQueryParams ParamsCall = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
+	DoTrace(OtherActor->ReceiveHit(OverlappedComp,OtherActor,OtherComp,false,OtherActor->GetActorLocation(),SweepResult.Normal,lineStart,SweepResult), &ParamsCall);
+}
+
+void UTraceComp::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+}
+
+bool UTraceComp::DoTrace(FHitResult* Hit, FCollisionQueryParams* params)
+{
+	if (getIfClicked() == true)
+	{
+		if (Hit->Actor.Get()->GetFName() != "SelfMadePlayer_0")
+		{
+
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Trace");
+			lineStart = GetOwner()->GetActorLocation();
+			rotation = GetOwner()->GetActorRotation();
+
+			LineEnd = lineStart + (rotation.Vector() * EndMultiply);
+			params->bTraceComplex = true;
+			params->bReturnPhysicalMaterial = false;
+
+			bool Traced = GetWorld()->LineTraceSingleByChannel
+			(
+				*Hit, lineStart, LineEnd, ECC_PhysicsBody, *params
+			);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Traced value" + Traced);
+			GetTraceBullet(100, FColor::Orange, false, 1.5f, 0, 5.0f);
+			setClicked(false);
+			return Traced;
+		}
+	}
+}
+
 // Called every frame
 void UTraceComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
 }
 
-void UTraceComp::GetTraceBullet()
+void UTraceComp::GetTraceBullet(float multiplyLength,FColor color, bool linePresist,float lifeTime, int proity, float thickness)
 {
+	
 	// Prinst the message to the log
 	UE_LOG(LogTemp, Warning, TEXT("Sending ray Trace"))
 	// Get the player controlls and get the location and rotation of the player
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPlayerViewPoint(OUT location,OUT rotation);
+	//UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPlayerViewPoint(OUT lineStart,OUT rotation);
 	// Is the lines end
-	LineEnd = location + rotation.Vector() * EndMultiply;
+	LineEnd = lineStart + rotation.Vector() * multiplyLength;
+
 	// Draws the line at the current location to the end
-	DrawDebugLine(GetWorld(),location,LineEnd,FColor::Green,false,1.5f,0,5.0f);
+	DrawDebugLine(GetWorld(),lineStart,LineEnd, color,false,lifeTime, proity, thickness);
 }
