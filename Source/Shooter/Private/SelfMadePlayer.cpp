@@ -28,6 +28,7 @@ ASelfMadePlayer::ASelfMadePlayer()
 	CameraComponent->SetRelativeLocation(CamLocation); // Position the camera
 	CameraComponent->bUsePawnControlRotation = true;
 
+	// Craete the Trace component
 	TraceComp = CreateDefaultSubobject<UTraceComp>(TEXT("TraceComp"));
 	TraceComp->AddToRoot();
 }
@@ -42,6 +43,9 @@ void ASelfMadePlayer::BeginPlay()
 void ASelfMadePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// Show the controles
+	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\n Press E to shoot ray");
+
 }
 
 void ASelfMadePlayer::OnFire()
@@ -62,7 +66,7 @@ void ASelfMadePlayer::OnFire()
 void ASelfMadePlayer::OnFireRay()
 {
 	//TraceComp->GetTraceBullet(100,FColor::Orange,false,1.5f,0,5.0f);
-	TraceComp->setClicked(true);
+	TraceComp->DoTrace();
 }
 
 void ASelfMadePlayer::MoveX(float value)

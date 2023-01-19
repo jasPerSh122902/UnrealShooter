@@ -6,6 +6,7 @@
 #include <Engine/World.h>
 #include <GameFramework/PlayerController.h>
 #include <GameFramework/Character.h>
+#include <Camera/CameraComponent.h>
 // Sets default values for this component's properties
 UTraceComp::UTraceComp()
 {
@@ -18,42 +19,37 @@ UTraceComp::UTraceComp()
 void UTraceComp::BeginPlay()
 {
 	Super::BeginPlay();
-	MyCharactor = Cast<ACharacter>(GetOwner());
 }
 
-void UTraceComp::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void UTraceComp::DoTrace()
 {
-	FCollisionQueryParams ParamsCall = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
-	DoTrace(OtherActor->ReceiveHit(OverlappedComp,OtherActor,OtherComp,false,OtherActor->GetActorLocation(),SweepResult.Normal,lineStart,SweepResult), &ParamsCall);
-}
 
-void UTraceComp::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Trace");
+	// set the start line
+	LineStart = GetOwner()->GetActorLocation();
+	// set the rotation equal to the components rotation
+	Rotation = GetOwner()->FindComponentByClass<UCameraComponent>()->GetComponentRotation();
+	// the start will increate by the rotation
+	LineStart = FVector(LineStart.X + (Rotation.Vector().X * 100), LineStart.Y + (Rotation.Vector().Y * 100), LineStart.Z + (Rotation.Vector().Z * 100));
+	LineEnd = LineStart + (Rotation.Vector() * EndMultiply);
 
-bool UTraceComp::DoTrace(FHitResult* Hit, FCollisionQueryParams* params)
-{
-	if (getIfClicked() == true)
+	FHitResult hit;
+
+	if (GetWorld())
 	{
-		if (Hit->Actor.Get()->GetFName() != "SelfMadePlayer_0")
+		bool Traced = GetWorld()->LineTraceSingleByChannel(hit, LineStart, LineEnd, ECC_PhysicsBody, FCollisionQueryParams(), FCollisionResponseParams());
+		// Is the size of the bullet that i spawn
+		GetTraceBullet(100, FColor::Orange, false, 1.5f, 0, 5.0f);
+		
+		/// <summary>
+		/// Is the on collision call
+		/// </summary>
+		if (Traced && hit.GetActor())
 		{
-
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Trace");
-			lineStart = GetOwner()->GetActorLocation();
-			rotation = GetOwner()->GetActorRotation();
-
-			LineEnd = lineStart + (rotation.Vector() * EndMultiply);
-			params->bTraceComplex = true;
-			params->bReturnPhysicalMaterial = false;
-
-			bool Traced = GetWorld()->LineTraceSingleByChannel
-			(
-				*Hit, lineStart, LineEnd, ECC_PhysicsBody, *params
-			);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Traced value" + Traced);
-			GetTraceBullet(100, FColor::Orange, false, 1.5f, 0, 5.0f);
-			setClicked(false);
-			return Traced;
+			FRotator hitrotation;
+			hitrotation.Vector().Set(30000.f, 30.f, 300.f);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Traced value" + hit.GetActor()->GetFName().ToString());
+			hit.GetActor()->SetActorRelativeRotation(hitrotation * 9, false, &hit,ETeleportType::ResetPhysics);
 		}
 	}
 }
@@ -70,11 +66,9 @@ void UTraceComp::GetTraceBullet(float multiplyLength,FColor color, bool linePres
 	
 	// Prinst the message to the log
 	UE_LOG(LogTemp, Warning, TEXT("Sending ray Trace"))
-	// Get the player controlls and get the location and rotation of the player
-	//UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPlayerViewPoint(OUT lineStart,OUT rotation);
 	// Is the lines end
-	LineEnd = lineStart + rotation.Vector() * multiplyLength;
+	LineEnd = LineStart + Rotation.Vector() * multiplyLength;
 
 	// Draws the line at the current location to the end
-	DrawDebugLine(GetWorld(),lineStart,LineEnd, color,false,lifeTime, proity, thickness);
+	DrawDebugLine(GetWorld(),LineStart,LineEnd, color,false,lifeTime, proity, thickness);
 }

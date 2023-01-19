@@ -17,9 +17,9 @@ public:
 	// Sets default values for this component's properties
 	UTraceComp();
 	UPROPERTY(Editanywhere, Category = "StartPoint")
-		FVector lineStart;
+		FVector LineStart;
 	UPROPERTY(Editanywhere)
-		FRotator rotation;
+		FRotator Rotation;
 	UPROPERTY(Editanywhere, Category = "EndPoint")
 		FVector LineEnd;
 	UPROPERTY(Editanywhere, Category = "Color")
@@ -34,26 +34,16 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	/// <summary>
-/// Called when it hits somthing
-/// </summary>
-	UFUNCTION()
-		void OnOverLapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:	
 	bool getIfClicked() {return IfClicked;}
 	void setClicked(bool clicked) { clicked = IfClicked; }
-	bool DoTrace(FHitResult* Hit, FCollisionQueryParams* params);
+	void DoTrace();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	/// <summary>
 	/// Gets the Trace
 	/// </summary>
 	void GetTraceBullet(float multiplyLength,FColor color, bool linePresist,float lifeTime,int proity,float thickness);
-
-private:
-	ACharacter* MyCharactor;
 
 };
