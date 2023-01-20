@@ -36,20 +36,6 @@ void AWall::BeginPlay() {Super::BeginPlay();}
 void AWall::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {
 	/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "start Collision walls")*/;
-
-	//TArray<AActor*> ActorsToFind;
-	//FHitResult hit;
-	//FTransform addedTransform;
-	////Gets all Actors of FireEffect class that have the "FindActorTag"
-
-	//UGameplayStatics::GetAllActorsOfClassWithTag(GetWorld(), ASelfMadePlayer::StaticClass(), FName("SelfMadePlayer_0"), ActorsToFind);
-
-	//FVector currentPlayerPosistion = ActorsToFind[0]->GetActorLocation();
-	//posistion = GetActorLocation();
-
-	//FVector direction = (posistion - currentPlayerPosistion );
-	//addedTransform.TransformVector(BounceOff * direction);
-	//OtherActor->AddActorLocalTransform(addedTransform, false, &hit, ETeleportType::TeleportPhysics);
 }
 
 void AWall::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "End Collision walls")*/ ; }

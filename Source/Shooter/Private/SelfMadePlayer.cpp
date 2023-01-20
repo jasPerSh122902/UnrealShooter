@@ -41,7 +41,7 @@ void ASelfMadePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	// Show the controles
-	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\n Press Right mouse to shoot ray\n To Move WASD");
+	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\nPress Right mouse to shoot ray\nTo Move WASD");
 
 }
 
