@@ -2,7 +2,10 @@
 
 #include <Shooter/Public/Wall.h>
 #include <Components/BoxComponent.h>
-#include <Engine/Engine.h>
+#include <Engine/World.h>
+#include <Shooter/Public/ProjectileBullet.h>
+#include <Shooter/Public/SelfMadePlayer.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AWall::AWall()
@@ -25,31 +28,17 @@ AWall::AWall()
 	ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssest(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
 	UStaticMesh* Asset = MeshAssest.Object;
 	meshA->SetStaticMesh(Asset);
-
 }
 
 // Called when the game starts or when spawned
-void AWall::BeginPlay()
+void AWall::BeginPlay() {Super::BeginPlay();}
+
+void AWall::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {
-	Super::BeginPlay();
+	/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "start Collision walls")*/;
 }
 
-void AWall::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "start Collision walls");
-
-}
-
-void AWall::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "End Collision walls");
-
-}
+void AWall::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "End Collision walls")*/ ; }
 
 // Called every frame
-void AWall::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-
+void AWall::Tick(float DeltaTime) {Super::Tick(DeltaTime);}

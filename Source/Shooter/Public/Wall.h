@@ -8,6 +8,7 @@
 
 class UBoxComponent;
 class UStaticMeshComponent;
+class AProjectileBullet;
 
 UCLASS()
 class SHOOTER_API AWall : public AActor
@@ -20,6 +21,9 @@ class SHOOTER_API AWall : public AActor
 		UBoxComponent* m_Collision;
 	UPROPERTY(EditAnywhere)
 		FVector Size;
+	UPROPERTY(EditAnywhere, Category = Bounce)
+		FVector BounceOff = FVector(0, 10, 10);
+	FVector posistion;
 public:
 	// Sets default values for this actor's properties
 	AWall();

@@ -17,26 +17,43 @@ public:
 	// Sets default values for this component's properties
 	UTraceComp();
 	UPROPERTY(Editanywhere, Category = "StartPoint")
-		FVector location;
+		FVector LineStart;
 	UPROPERTY(Editanywhere)
-		FRotator rotation;
+		FRotator Rotation;
 	UPROPERTY(Editanywhere, Category = "EndPoint")
 		FVector LineEnd;
-	UPROPERTY(Editanywhere , Category = "multipler")
-		float EndMultiply = 100;
+	UPROPERTY(Editanywhere, Category = "Color")
+		FColor LineColor = FColor::Green;
+	UPROPERTY(Editanywhere)
+		bool LinesPresist = false, IfClicked = false;
+	UPROPERTY(Editanywhere)
+		float LifeTime = 1.5f, EndMultiply = 100, Thichness = 5.0f;
+	UPROPERTY(Editanywhere)
+		int DepthPirority = 0;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:	
+	/// <summary>
+	/// Gets If clicked
+	/// </summary>
+	bool getIfClicked() {return IfClicked;}
+	/// <summary>
+	/// Set clicked
+	/// </summary>
+	/// <bool="clicked"></param>
+	void setClicked(bool clicked) { clicked = IfClicked; }
+	/// <summary>
+	/// Made the trace happen
+	/// </summary>
+	void DoTrace();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	/// <summary>
 	/// Gets the Trace
 	/// </summary>
-	void GetTraceBullet();
-
-private:
-	ACharacter* MyCharactor;
+	void GetTraceBullet(float multiplyLength,FColor color, bool linePresist,float lifeTime,int proity,float thickness);
 
 };

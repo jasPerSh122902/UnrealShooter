@@ -16,25 +16,27 @@ class SHOOTER_API AProjectileBullet : public AActor
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = Collider)
-		USphereComponent* m_Collision;
+		USphereComponent* Collision;
 	UPROPERTY(EditAnywhere, Category = Mesh)
-		UStaticMeshComponent* meshA;
+		UStaticMeshComponent* MeshA;
 	UPROPERTY(VisibleAnywhere, Category = Movement)
-		UProjectileMovementComponent* m_Movement;
+		UProjectileMovementComponent* Movement;
 	UPROPERTY(EditAnywhere, Category = Bounce)
-		FVector bounceOff;
+		FVector BounceOff = FVector(0, 10, 10);
+;
+	FVector startLocation;
 	
 public:	
 	/// <summary>
 	/// Returns the collider component
 	/// </summary>
 	/// <returns>m_Collision</returns>
-	USphereComponent* getColliderComponent() const { return m_Collision; }
+	USphereComponent* getColliderComponent() const { return Collision; }
 	/// <summary>
 	/// Returns the movement component
 	/// </summary>
 	/// <returns>m_Movement</returns>
-	UProjectileMovementComponent* getMovementComponent() const { return m_Movement; }
+	UProjectileMovementComponent* getMovementComponent() const { return Movement; }
 	// Sets default values for this actor's properties
 	AProjectileBullet();
 	/// <summary>
