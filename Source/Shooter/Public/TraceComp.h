@@ -36,8 +36,18 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	/// <summary>
+	/// Gets If clicked
+	/// </summary>
 	bool getIfClicked() {return IfClicked;}
+	/// <summary>
+	/// Set clicked
+	/// </summary>
+	/// <bool="clicked"></param>
 	void setClicked(bool clicked) { clicked = IfClicked; }
+	/// <summary>
+	/// Made the trace happen
+	/// </summary>
 	void DoTrace();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

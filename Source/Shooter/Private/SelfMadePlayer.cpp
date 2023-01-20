@@ -13,7 +13,7 @@
 // Sets default values
 ASelfMadePlayer::ASelfMadePlayer()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -34,23 +34,22 @@ ASelfMadePlayer::ASelfMadePlayer()
 }
 
 // Called when the game starts or when spawned
-void ASelfMadePlayer::BeginPlay()
-{
-	Super::BeginPlay();
-}
+void ASelfMadePlayer::BeginPlay() { Super::BeginPlay(); }
 
 // Called every frame
 void ASelfMadePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	// Show the controles
-	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\n Press E to shoot ray");
+	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\n Press Right mouse to shoot ray\n To Move WASD");
 
 }
 
 void ASelfMadePlayer::OnFire()
 {
+	// Get the world
 	UWorld* World = GetWorld();
+	// Gets the rotation
 	FRotator SpawnRotation = GetControlRotation();
 	// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 	FVector SpawnLocation = ((MeshA != nullptr) ? MeshA->GetComponentLocation() : GetActorLocation());
@@ -60,7 +59,7 @@ void ASelfMadePlayer::OnFire()
 	// spawn the projectile at the muzzle
 	World->SpawnActor<AProjectileBullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
 
-	
+
 }
 
 void ASelfMadePlayer::OnFireRay()
@@ -71,24 +70,20 @@ void ASelfMadePlayer::OnFireRay()
 
 void ASelfMadePlayer::MoveX(float value)
 {
-	if (value != 0.0f)
-	{
-		// add movement in that direction
+	if (value != 0.0f)// Add movement in that direction
 		AddMovementInput(GetActorRightVector(), value);
-	}
+
 }
 
 void ASelfMadePlayer::MoveY(float value)
 {
-	if (value != 0.0f)
-	{
-		// add movement in that direction
+	if (value != 0.0f)// Add movement in that direction
 		AddMovementInput(GetActorForwardVector(), value);
-	}
+
 }
 
 // Called to bind functionality to input
-void ASelfMadePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ASelfMadePlayer::SetupPlayerInputComponent(UInputComponent * PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	/// <summary>

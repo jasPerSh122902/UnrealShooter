@@ -63,7 +63,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	UPROPERTY(VisibleAnywhere)
 	float BaseTurnRate;
 	UPROPERTY(EditAnywhere)
 	FVector OffSet;
@@ -71,7 +71,7 @@ private:
 	AProjectileBullet* ProjectileClass;
 	UPROPERTY(EditAnywhere)
 	UTraceComp* TraceComp;
-	UPROPERTY(VisibleAnywhere,  Category = "Camera")
+	UPROPERTY(VisibleAnywhere)
 	float BaseLookUpRate;
 	UPROPERTY(VisibleAnywhere, Category = "Camera location")
 	FVector CamLocation;

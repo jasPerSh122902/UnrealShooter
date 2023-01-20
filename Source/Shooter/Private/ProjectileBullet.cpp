@@ -7,6 +7,7 @@
 #include <Engine/Engine.h>
 #include <Shooter/Public/SelfMadePlayer.h>
 #include <Kismet/GameplayStatics.h>
+#include <Engine/World.h>
 // Sets default values
 AProjectileBullet::AProjectileBullet()
 {
@@ -25,10 +26,14 @@ void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	// If the other actor that was collided with is not Its self
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
+		// Get the larget location
+		FVector targetLocation = OtherActor->GetActorLocation();
+		// Gets the direction Vector
+		FVector direction = (startLocation - targetLocation);
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
-		// This is for ricishay off of a object
-		dotprod = GetDotProductTo(OtherActor);
-		Movement->AddForce( (BounceOff * 30));
+		// This is for ricishay off of a object.
+		// This makes the bullet bounce off of the other actorss
+		Movement->AddForce((direction.GetUnsafeNormal() * (BounceOff * 300000)));
 		// increase the scale
 		this->SetActorScale3D(FVector(2, 2, 5));
 	}
@@ -48,6 +53,8 @@ void AProjectileBullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor
 void AProjectileBullet::BeginPlay()
 {
 	Super::BeginPlay();
+	// Set location
+	startLocation = GetActorLocation();
 }
 
 void AProjectileBullet::MakeCollision()
@@ -72,7 +79,7 @@ void AProjectileBullet::MakeMovement()
 	// Makes a default movement
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Walk"));
 	Movement->UpdatedComponent = Collision;
-	// set the movements speed
+	// Set the movements speed
 	Movement->InitialSpeed = 3000.f;
 	Movement->MaxSpeed = 10000.f;
 	// Allows for rotations
@@ -104,7 +111,4 @@ void AProjectileBullet::MakeMesh()
 }
 
 // Called every frame
-void AProjectileBullet::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
+void AProjectileBullet::Tick(float DeltaTime) { Super::Tick(DeltaTime); }
