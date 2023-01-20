@@ -27,7 +27,8 @@ void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
 		// This is for ricishay off of a object
-		Movement->AddForce( BounceOff * 30);
+		dotprod = GetDotProductTo(OtherActor);
+		Movement->AddForce( (BounceOff * 30));
 		// increase the scale
 		this->SetActorScale3D(FVector(2, 2, 5));
 	}

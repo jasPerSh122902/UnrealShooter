@@ -22,7 +22,8 @@ class SHOOTER_API AProjectileBullet : public AActor
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 		UProjectileMovementComponent* Movement;
 	UPROPERTY(EditAnywhere, Category = Bounce)
-		FVector BounceOff = FVector(3000000, 0, 0);
+		FVector BounceOff = FVector(0, 3000000, 0);
+	int dotprod;
 	
 public:	
 	/// <summary>
