@@ -16,12 +16,7 @@ class SHOOTER_API UTraceComp : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTraceComp();
-	UPROPERTY(Editanywhere, Category = "StartPoint")
-		FVector LineStart;
-	UPROPERTY(Editanywhere)
-		FRotator Rotation;
-	UPROPERTY(Editanywhere, Category = "EndPoint")
-		FVector LineEnd;
+
 	UPROPERTY(Editanywhere, Category = "Color")
 		FColor LineColor = FColor::Green;
 	UPROPERTY(Editanywhere)
@@ -34,7 +29,10 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
+private:
+	FVector LineStart;
+	FRotator Rotation;
+	FVector LineEnd;
 public:	
 	/// <summary>
 	/// Gets If clicked
@@ -48,12 +46,12 @@ public:
 	/// <summary>
 	/// Made the trace happen
 	/// </summary>
-	void DoTrace();
+	void DoTrace(FVector location, FRotator rotation, UWorld* currentWorld);
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	/// <summary>
 	/// Gets the Trace
 	/// </summary>
-	void GetTraceBullet(float multiplyLength,FColor color, bool linePresist,float lifeTime,int proity,float thickness);
+	void GetTraceBullet(float multiplyLength,FColor color, bool linePresist,float lifeTime,int proity,float thickness, UWorld* currentWorld, FVector location,FVector endLocation ,FRotator rotation);
 
 };

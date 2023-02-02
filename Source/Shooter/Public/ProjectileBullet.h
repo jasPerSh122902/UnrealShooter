@@ -23,7 +23,7 @@ class SHOOTER_API AProjectileBullet : public AActor
 		UProjectileMovementComponent* Movement;
 	UPROPERTY(EditAnywhere, Category = Bounce)
 		FVector BounceOff = FVector(0, 10, 10);
-;
+
 	FVector startLocation;
 	
 public:	

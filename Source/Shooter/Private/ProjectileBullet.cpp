@@ -26,16 +26,19 @@ void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	// If the other actor that was collided with is not Its self
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
-		// Get the larget location
-		FVector targetLocation = OtherActor->GetActorLocation();
-		// Gets the direction Vector
-		FVector direction = (startLocation - targetLocation);
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
-		// This is for ricishay off of a object.
-		// This makes the bullet bounce off of the other actorss
-		Movement->AddForce((direction.GetUnsafeNormal() * (BounceOff * 300000)));
-		// increase the scale
-		this->SetActorScale3D(FVector(2, 2, 5));
+		if (OtherActor != GetOwner())
+		{
+			// Get the larget location
+			FVector targetLocation = OtherActor->GetActorLocation();
+			// Gets the direction Vector
+			FVector direction = (startLocation - targetLocation);
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
+			// This is for ricishay off of a object.
+			// This makes the bullet bounce off of the other actorss
+			Movement->AddForce((direction.GetUnsafeNormal() * (BounceOff * 300000)));
+			// increase the scale
+			this->SetActorScale3D(FVector(2, 2, 5));
+		}
 	}
 }
 
@@ -44,8 +47,11 @@ void AProjectileBullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End start");
 	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End");
-		//GEngine->ClearOnScreenDebugMessages();
+		if (OtherActor != GetOwner())
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End");
+			//GEngine->ClearOnScreenDebugMessages();
+		}
 	}
 }
 
@@ -62,8 +68,8 @@ void AProjectileBullet::MakeCollision()
 	// Sets a sphere as the base collider
 	Collision = CreateDefaultSubobject<USphereComponent>(TEXT("Circle"));
 	// Set the radius
-	Collision->InitSphereRadius(50.0f);
-	Collision->BodyInstance.SetCollisionProfileName("Trigger");
+	Collision->InitSphereRadius(5.0f);
+	Collision->BodyInstance.SetCollisionProfileName("Projectile");
 	// Makes it so it has collision
 	Collision->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBullet::OnOverLapBegin);
 	Collision->OnComponentEndOverlap.AddDynamic(this, &AProjectileBullet::OnOverlapEnd);
@@ -71,7 +77,7 @@ void AProjectileBullet::MakeCollision()
 	Collision->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
 	Collision->CanCharacterStepUpOn = ECB_No;
 	// Makes the root comp to the collider
-	Collision->SetupAttachment(RootComponent);
+	RootComponent = Collision;
 }
 
 void AProjectileBullet::MakeMovement()

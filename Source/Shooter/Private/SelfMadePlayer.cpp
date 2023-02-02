@@ -27,22 +27,19 @@ ASelfMadePlayer::ASelfMadePlayer()
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocation(CamLocation); // Position the camera
 	CameraComponent->bUsePawnControlRotation = true;
-
-	// Craete the Trace component
-	TraceComp = CreateDefaultSubobject<UTraceComp>(TEXT("TraceComp"));
-	TraceComp->AddToRoot();
 }
 
 // Called when the game starts or when spawned
-void ASelfMadePlayer::BeginPlay() { Super::BeginPlay(); }
+void ASelfMadePlayer::BeginPlay() {
+	Super::BeginPlay(); 
+	// Show the controles
+	GEngine->AddOnScreenDebugMessage(1, 1000000.0f, FColor::Emerald, "Press Left mouse to shoot projectile\nPress Right mouse to shoot ray\nTo Move WASD");
+}
 
 // Called every frame
 void ASelfMadePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	// Show the controles
-	GEngine->AddOnScreenDebugMessage(1, DeltaTime, FColor::Emerald, "Press Left mouse to shoot projectile\nPress Right mouse to shoot ray\nTo Move WASD");
-
 }
 
 void ASelfMadePlayer::OnFire()
@@ -56,6 +53,7 @@ void ASelfMadePlayer::OnFire()
 	// Set Spawn Collision Handling Override
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	ActorSpawnParams.Owner = this;
 	// spawn the projectile at the muzzle
 	World->SpawnActor<AProjectileBullet>(SpawnLocation, SpawnRotation, ActorSpawnParams);
 
@@ -65,7 +63,7 @@ void ASelfMadePlayer::OnFire()
 void ASelfMadePlayer::OnFireRay()
 {
 	//TraceComp->GetTraceBullet(100,FColor::Orange,false,1.5f,0,5.0f);
-	TraceComp->DoTrace();
+	TraceComp->DoTrace(GetActorLocation(), FindComponentByClass<UCameraComponent>()->GetComponentRotation(),GetWorld());
 }
 
 void ASelfMadePlayer::MoveX(float value)
