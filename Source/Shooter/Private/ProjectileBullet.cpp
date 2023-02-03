@@ -23,21 +23,22 @@ AProjectileBullet::AProjectileBullet()
 void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap begin");
-	// If the other actor that was collided with is not Its self
-	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
+	// if the object is not itself or the player
+	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0") && (OtherActor != nullptr))
 	{
 		if (OtherActor != GetOwner())
 		{
 			// Get the larget location
+			FVector targetForward = OtherActor->GetActorForwardVector();
 			FVector targetLocation = OtherActor->GetActorLocation();
 			// Gets the direction Vector
-			FVector direction = (startLocation - targetLocation);
+			FVector direction =  (startLocation - targetLocation   );
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Were in boys");
 			// This is for ricishay off of a object.
-			// This makes the bullet bounce off of the other actorss
-			Movement->AddForce((direction.GetUnsafeNormal() * (BounceOff * 300000)));
-			// increase the scale
-			this->SetActorScale3D(FVector(2, 2, 5));
+			if(FVector::DotProduct(targetLocation, startLocation) <= 1)
+				Movement->AddForce(-targetForward * (direction.Normalize() * (BounceOff * 300000)));
+			else 
+				Movement->AddForce((direction.Normalize() * (BounceOff * 3000)));
 		}
 	}
 }
@@ -45,7 +46,7 @@ void AProjectileBullet::OnOverLapBegin(UPrimitiveComponent* OverlappedComp, AAct
 void AProjectileBullet::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Overlap End start");
-	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0"))
+	if ((OtherActor != this) && (OtherActor->GetFName() != "SelfMadePlayer_0") && (OtherActor != nullptr))
 	{
 		if (OtherActor != GetOwner())
 		{
@@ -87,7 +88,7 @@ void AProjectileBullet::MakeMovement()
 	Movement->UpdatedComponent = Collision;
 	// Set the movements speed
 	Movement->InitialSpeed = 3000.f;
-	Movement->MaxSpeed = 10000.f;
+	Movement->MaxSpeed = 3000.f;
 	// Allows for rotations
 	Movement->bRotationFollowsVelocity = true;
 	// Allows for bounce

@@ -19,13 +19,17 @@ UTraceComp::UTraceComp()
 void UTraceComp::BeginPlay() {Super::BeginPlay();}
 void UTraceComp::DoTrace(FVector location, FRotator rotation,UWorld* currentWorld)
 {
+	//Made temp varables 
 	FVector tempLocation = location;
-	FRotator temprotation = rotation;
+	FRotator tempRotation = rotation;
 	FVector tempEndLocation;
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, "Trace");
-	tempLocation = FVector(tempLocation.X + (temprotation.Vector().X * 100), tempLocation.Y + (temprotation.Vector().Y * 100), tempLocation.Z + (temprotation.Vector().Z * 100));
-	// the start will increate by the rotation
-	tempEndLocation = tempLocation + temprotation.Vector();
+	const FVector temp;
+	// adding the location and the rotation together
+	tempLocation = FVector(tempLocation.X + (tempRotation.Vector().X * 100), tempLocation.Y + (tempRotation.Vector().Y * 100), tempLocation.Z + (tempRotation.Vector().Z * 100));
+	// the start will increate by; the rotation
+	// will make the ray be at a agle around the center of the screen
+	 //tempEndLocation = tempLocation * (tempRotation.Vector() * 100000);
+	tempEndLocation = tempLocation + (tempRotation.Vector() * 100000);
 	// Makes a hit result
 	FHitResult hit;
 	// If the world return true
@@ -36,17 +40,17 @@ void UTraceComp::DoTrace(FVector location, FRotator rotation,UWorld* currentWorl
 		// else return false
 		bool Traced = currentWorld->LineTraceSingleByChannel(hit, tempLocation, tempEndLocation, ECC_PhysicsBody, FCollisionQueryParams(), FCollisionResponseParams());
 		// Is the size of the bullet that i spawn
-		GetTraceBullet(100, FColor::Orange, false, 1.5f, 0, 5.0f,currentWorld,tempLocation,tempEndLocation,temprotation);
+		GetTraceBullet(100, FColor::Orange, false, 1.5f, 0, 5.0f,currentWorld,tempLocation,tempEndLocation,tempRotation);
 		
 		/// <summary>
 		/// Is the on collision call
 		/// </summary>
 		if (Traced && hit.GetActor())
 		{
+			// if the actor hit is player
 			if (hit.GetActor()->GetFName() == "SelfMadePlayer_0")
-			{
-				return;
-			}
+				return;//return
+			
 			// Make a Frotator
 			FRotator hitrotation;
 			// Set the rotator 
@@ -66,7 +70,6 @@ void UTraceComp::GetTraceBullet(float multiplyLength,FColor color, bool linePres
 	// Prinst the message to the log
 	UE_LOG(LogTemp, Warning, TEXT("Sending ray Trace"))
 	// Is the lines end
-	endLocation = location + rotation.Vector() * multiplyLength;
 	// Draws the line at the current location to the end
 	DrawDebugLine(currentWorld, location, endLocation, color,false,lifeTime, proity, thickness);
 }
